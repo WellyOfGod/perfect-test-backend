@@ -11,10 +11,13 @@ class CreateCustomersTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->string('cpf');
             $table->timestamps();
         });
     }
@@ -24,7 +27,7 @@ class CreateCustomersTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('customers');
     }

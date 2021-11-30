@@ -21,7 +21,7 @@ class CreateSalesTable extends Migration
             $table->foreignId('product_id')->constrained('products');
             $table->foreignId('sale_situation_id')->constrained('sale_situations');
             $table->foreignId('customers_id')->constrained('customers');
-            $table->datetime('dh_sold')->nullable();
+            $table->datetime('sale_date')->nullable();
             $table->timestamps();
         });
     }

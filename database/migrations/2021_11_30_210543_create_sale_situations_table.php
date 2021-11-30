@@ -4,17 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSaleSituationTable extends Migration
+class CreateSaleSituationsTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('sale_situation', function (Blueprint $table) {
+        Schema::create('sale_situations', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class CreateSaleSituationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sale_situation');
+        Schema::dropIfExists('sale_situations');
     }
 }

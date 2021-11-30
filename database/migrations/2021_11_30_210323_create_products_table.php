@@ -11,10 +11,14 @@ class CreateProductsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 256);
+            $table->text('description', 1024);
+            $table->unsignedDecimal('price', 10, 2);
+            $table->string('photo_path')->nullable();
             $table->timestamps();
         });
     }
@@ -24,7 +28,7 @@ class CreateProductsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('products');
     }

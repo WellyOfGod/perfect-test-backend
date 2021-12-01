@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductStoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
 
 

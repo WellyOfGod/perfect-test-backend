@@ -1,10 +1,17 @@
 @extends('layout')
 
 @section('content')
-    <h1>Adicionar / Editar Produto</h1>
+    <h1>@isset($product->id)
+            Editar Produto - {{ $product->name }}
+            <a class="btn btn-secondary text-white" href="{{ route('product.create') }}">
+                Cadastrar Novo Produto
+            </a>
+        @else
+            Criar Produto
+        @endisset</h1>
     <div class='card'>
         <div class='card-body'>
-            <form action="{{ route('product.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{ $route }}" method="post" enctype="multipart/form-data">
                 @if(request()->routeIs('product.edit'))
                     @method('PUT')
                 @endif

@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>@isset($customer->id)
-            Editar Cliente - {{ $customer->name }}
+            Editar Cadatro do Cliente - {{ $customer->name }}
             <a class="btn btn-secondary text-white float-right"  href="{{ route('customer.create') }}">
                 Cadastrar Novo Cliente
             </a>
@@ -49,6 +49,13 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Salvar</button>
             </form>
+            @isset($customer->id)
+                <form action="{{ $route }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-delete float-left">Deletar Cadastro</button>
+                </form>
+            @endisset
         </div>
     </div>
 @endsection

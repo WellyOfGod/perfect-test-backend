@@ -3,7 +3,7 @@
 @section('content')
     <h1>@isset($product->id)
             Editar Produto - {{ $product->name }}
-            <a class="btn btn-secondary text-white" href="{{ route('product.create') }}">
+            <a class="btn btn-secondary text-white float-right"  href="{{ route('product.create') }}">
                 Cadastrar Novo Produto
             </a>
         @else

@@ -3,16 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 
+//Route::match([Request::METHOD_GET, Request::METHOD_POST], '/', 'DashboardController')->name('dashboard');
 
-/*
-Telas para ver o funcionamento sem dados
-*/
-Route::get('/', function () {
-    return view('dashboard');
-});
-Route::get('/sales', function () {
-    return view('crud_sales');
-});
-Route::get('/products', function () {
-    return view('crud_products');
-});
+//Route::resources([
+//    'product' => 'ProductController',
+//    'client'  => 'ClientController',
+//    'sale'    => 'SaleController',
+//], ['except' => ['index', 'show']]);
+
+Route::resource('product', 'ProductController');

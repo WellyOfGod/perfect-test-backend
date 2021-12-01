@@ -15,7 +15,7 @@ class CreateSaleSituationsTable extends Migration
     {
         Schema::create('sale_situations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name',20)->nullable(false);
             $table->timestamps();
         });
     }

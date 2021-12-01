@@ -59,8 +59,13 @@ class CustomerController extends Controller
     }
 
 
-    public function destroy($id)
+    /**
+     * @param Customers $customer
+     * @return RedirectResponse
+     */
+    public function destroy(Customers $customer): RedirectResponse
     {
-        //
+        Customers::find($customer->id)->delete();
+        return redirect()->route('customer.create');
     }
 }

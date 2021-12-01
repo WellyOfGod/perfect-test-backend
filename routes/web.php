@@ -12,3 +12,5 @@ use Illuminate\Support\Facades\Route;
 //], ['except' => ['index', 'show']]);
 
 Route::resource('product', 'ProductController');
+Route::resource('sale', 'SaleController');
+

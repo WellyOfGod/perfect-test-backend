@@ -24,9 +24,11 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->customer ? ",{$this->customer->id}" : '';
+
         return [
-            'name'  => 'required|string',
-            'email' => 'required|email:rfc,dns',
+            'name'  => 'required|string|max:64',
+            'email'  => "nullable|string|max:128|unique:App\Models\Customers,email,{$id}",
             'cpf'   => ['required', 'string', 'min:11', 'max:14', new CPF]
         ];
     }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Customer\StoreRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Customers;
+use Exception;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 
@@ -62,10 +62,12 @@ class CustomerController extends Controller
     /**
      * @param Customers $customer
      * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(Customers $customer): RedirectResponse
     {
-        Customers::find($customer->id)->delete();
+        $customer->delete();
+
         return redirect()->route('customer.create');
     }
 }

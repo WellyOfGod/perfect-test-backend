@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -22,18 +24,21 @@ class ProductController extends Controller
     }
 
     /**
-     * @param ProductStoreRequest $request
+     * @param ProductUpdateRequest $request
      * @return RedirectResponse
      */
-    public function store(ProductStoreRequest $request) : RedirectResponse
+    public function store(ProductUpdateRequest $request) : RedirectResponse
     {
         $product = Product::create($request->validated());
 
         return redirect()->route('product.edit', $product);
     }
 
-
-    public function edit(Product $product)
+    /**
+     * @param Product $product
+     * @return View
+     */
+    public function edit(Product $product): View
     {
         return view('crud_products', [
             'route'   => route('product.update', $product),
@@ -42,14 +47,16 @@ class ProductController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    /**
+     * @param ProductUpdateRequest $request
+     * @param Product $product
+     * @return RedirectResponse
+     */
+    public function update(ProductUpdateRequest $request, Product $product): RedirectResponse
     {
-        //
+        $product->update($request->validated());
+
+        return redirect()->route('product.edit', $product);
     }
 
-
-    public function destroy($id)
-    {
-        //
-    }
 }

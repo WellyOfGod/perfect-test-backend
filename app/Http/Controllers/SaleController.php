@@ -2,83 +2,81 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Sale\{StoreRequest, UpdateRequest};
+use App\Models\{Customers, Product, Sale, SaleSituation};
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Fluent;
+use Illuminate\View\View;
 
 class SaleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private function viewParams(string $route, $sale): array
     {
-        //
+        return [
+            'route'          => $route,
+            'customers'        => Customers::all(['id', 'cpf', 'name']),
+            'products'       => Product::all(['id', 'price', 'name']),
+            'saleSituations' => SaleSituation::all(['name', 'id']),
+            'sale'           => $sale
+        ];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        $sale = new Fluent();
+        $sale->customer = new Fluent();
+
+        return view('crud_sales', $this->viewParams(route('sale.store'), $sale));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
-        //
+        $data = new Fluent($request->validated());
+
+        if (!$request->customer_id) {
+            $client = Customers::create($data->toArray());
+            $data->customer_id = $customer->id;
+        }
+
+        $value = Product::select('id', 'price')
+                ->where('id', $data->product_id)
+                ->first()
+                ->price * $data->quantity;
+
+        $data->total = $data->discount
+            ? $value - ($value * ($data->discount / 100))
+            : $value;
+
+        $sale = Sale::create($data->toArray());
+
+        return redirect()->route('sale.edit', $sale);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Sale $sale): View
     {
-        //
+        return view('crud_sales', $this->viewParams(route('sale.update', $sale), $sale));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(UpdateRequest $request, Sale $sale): RedirectResponse
     {
-        //
-    }
+        $data = new Fluent($request->validated());
+        $sale->load('product');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $price = $sale->product->id === $data->product_id
+            ? $sale->product->price
+            : Product::select('id', 'price')
+                ->where('id', $data->product_id)
+                ->first()
+                ->price;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $value = $price * $data->quantity;
+
+        $data->total = $data->discount
+            ? $value - ($value * ($data->discount / 100))
+            : $value;
+
+        $sale->update($data->toArray());
+
+        return redirect()->route('sale.edit', $sale);
     }
 }

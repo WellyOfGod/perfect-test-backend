@@ -1,9 +1,10 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
-use App\Models\{Customers, Product, SaleSituation, Sale};
+use App\Models\{Customer, Product, SaleSituation, Sale};
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Sale::class, function (Faker $faker) {
     $product = Product::all(['id', 'price'])->random();
@@ -20,6 +21,6 @@ $factory->define(Sale::class, function (Faker $faker) {
         'total'             => $total,
         'sale_situation_id' => SaleSituation::all(['id'])->random()->id,
         'product_id'        => $product->id,
-        'customer_id'         => Customers::all(['id'])->random()->id
+        'customer_id'       => Customer::all(['id'])->random()->id
     ];
 });

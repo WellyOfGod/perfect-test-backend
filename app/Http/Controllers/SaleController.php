@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Sale\{StoreRequest, UpdateRequest};
-use App\Models\{Customers, Product, Sale, SaleSituation};
+use App\Models\{Customer, Product, Sale, SaleSituation};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Fluent;
 use Illuminate\View\View;
@@ -14,7 +14,7 @@ class SaleController extends Controller
     {
         return [
             'route'          => $route,
-            'customers'        => Customers::all(['id', 'cpf', 'name']),
+            'customers'      => Customer::all(['id', 'cpf', 'name']),
             'products'       => Product::all(['id', 'price', 'name']),
             'saleSituations' => SaleSituation::all(['name', 'id']),
             'sale'           => $sale
@@ -34,7 +34,7 @@ class SaleController extends Controller
         $data = new Fluent($request->validated());
 
         if (!$request->customer_id) {
-            $client = Customers::create($data->toArray());
+            $customer = Customer::create($data->toArray());
             $data->customer_id = $customer->id;
         }
 
@@ -49,7 +49,8 @@ class SaleController extends Controller
 
         $sale = Sale::create($data->toArray());
 
-        return redirect()->route('sale.edit', $sale);
+        return redirect()->route('dashboard', $sale);
+
     }
 
     public function edit(Sale $sale): View

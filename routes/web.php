@@ -10,3 +10,8 @@ Route::resources([
     'sale' => 'SaleController',
     'customer' => 'CustomerController'
 ], ['except' => ['index', 'show']]);
+
+Route::get('teste', function(){
+    dd(\App\Models\Sale::find(1)->customer);
+});
+

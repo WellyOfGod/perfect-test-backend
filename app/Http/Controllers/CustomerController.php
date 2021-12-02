@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Customer\StoreRequest;
-use App\Http\Requests\Customer\UpdateRequest;
-use App\Models\Customers;
+use App\Http\Requests\Customer\CustomerStoreRequest;
+use App\Http\Requests\Customer\CustomerUpdateRequest;
+use App\Models\Customer;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -25,22 +25,22 @@ class CustomerController extends Controller
 
 
     /**
-     * @param StoreRequest $request
+     * @param CustomerStoreRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(CustomerStoreRequest $request): RedirectResponse
     {
-        $customer = Customers::create($request->validated());
+        $customer = Customer::create($request->validated());
 
         return redirect()->route('customer.edit', $customer);
     }
 
 
     /**
-     * @param Customers $customer
+     * @param Customer $customer
      * @return View
      */
-    public function edit(Customers $customer): View
+    public function edit(Customer $customer): View
     {
         return view('crud_customers', [
             'route'   => route('customer.update', $customer),
@@ -50,11 +50,11 @@ class CustomerController extends Controller
 
 
     /**
-     * @param UpdateRequest $request
-     * @param Customers $customer
+     * @param CustomerUpdateRequest $request
+     * @param Customer $customer
      * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, Customers $customer): RedirectResponse
+    public function update(CustomerUpdateRequest $request, Customer $customer): RedirectResponse
     {
         $customer->update($request->validated());
 
@@ -63,11 +63,11 @@ class CustomerController extends Controller
 
 
     /**
-     * @param Customers $customer
+     * @param Customer $customer
      * @return RedirectResponse
      * @throws Exception
      */
-    public function destroy(Customers $customer): RedirectResponse
+    public function destroy(Customer $customer): RedirectResponse
     {
         $customer->delete();
 

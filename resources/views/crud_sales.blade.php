@@ -2,50 +2,123 @@
 
 @section('content')
     <h1>Adicionar / Editar Venda</h1>
-    <div class='card'>
-        <div class='card-body'>
-            <form>
-                <h5>Informações do cliente</h5>
-                <div class="form-group">
-                    <label for="name">Nome do cliente</label>
-                    <input type="text" class="form-control " id="name">
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ $route }}" method="post">
+                @csrf
+                <h5>Selecione o cliente</h5>
+                <label for="customer">Cliente</label>
+                <select name="customer_id" id="customer_id" class="form-control @error('customer_id') is-invalid @enderror">
+                    <option selected value="">Selecione</option>
+                    @forelse($customers as $customer)
+                        <option value="{{ $customer->id }}" @if (old('customer_id', $sale->customer_id) == $customer->id) selected @endif>{{ $customer->name }} -
+                            {{ $customer->cpf }}</option>
+                    @empty
+                        <option selected disabled>Nenhum cliente cadastrado</option>
+                    @endforelse
+                </select>
+                @error('customer_id')
+                <div class="invalid-feedback">
+                    {{ $message }}
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email">
-                </div>
-                <div class="form-group">
-                    <label for="cpf">CPF</label>
-                    <input type="text" class="form-control" id="cpf" placeholder="99999999999">
-                </div>
-                <h5 class='mt-5'>Informações da venda</h5>
+                @enderror
+                @if (request()->routeIs('sale.edit'))
+                    @method('PUT')
+                @else
+                    <h5 class="mt-5">Ou cadastre um novo cliente</h5>
+                    <div class="form-group">
+                        <label for="name">Nome do cliente</label>
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
+                               value="{{ old('name', $sale->customer->name) }}">
+                        @error('name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                               value="{{ old('email', $sale->customer->email) }}">
+                        @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="cpf">CPF</label>
+                        <input type="text" name="cpf" class="form-control @error('cpf') is-invalid @enderror"
+                               placeholder="000.000.000-00" value="{{ old('cpf', $sale->customer->cpf) }}">
+                        @error('cpf')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                @endif
+                <h5 class="mt-5">Informações da venda</h5>
                 <div class="form-group">
                     <label for="product">Produto</label>
-                    <select id="product" class="form-control">
-                        <option selected>Escolha...</option>
-                        <option>...</option>
+                    <select name="product_id" id="product_id" class="form-control @error('product_id') is-invalid @enderror">
+                        <option disabled selected value="">Selecione</option>
+                        @forelse($products as $product)
+                            <option value="{{ $product->id }}" @if (old('product_id', $sale->product_id) == $product->id) selected @endif>{{ $product->name }} - R$
+                                {{ $product->price }}</option>
+                        @empty
+                            <option selected disabled>Nenhum produto cadastrado</option>
+                        @endforelse
                     </select>
+                    @error('product_id')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
                 <div class="form-group">
-                    <label for="date">Data</label>
-                    <input type="text" class="form-control single_date_picker" id="date">
+                    <label for="sold_at">Data</label>
+                    <input type="text" name="sold_at" class="form-control @error('sold_at') is-invalid @enderror single_date_picker"
+                           id="sold_at">
+                    @error('sold_at')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="quantity">Quantidade</label>
-                    <input type="text" class="form-control" id="quantity" placeholder="1 a 10">
+                    <input type="text" name="quantity" class="form-control @error('quantity') is-invalid @enderror" id="quantity"
+                           value="{{ old('quantity', $sale->quantity) }}">
+                    @error('quantity')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="discount">Desconto</label>
-                    <input type="text" class="form-control" id="discount" placeholder="100,00 ou menor">
+                    <input type="text" name="discount" class="form-control @error('discount') is-invalid @enderror" id="discount"
+                           placeholder="100,00 ou menor" value="{{ old('discount', $sale->discount) }}">
+                    @error('discount')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="status">Status</label>
-                    <select id="status" class="form-control">
-                        <option selected>Escolha...</option>
-                        <option>Aprovado</option>
-                        <option>Cancelado</option>
-                        <option>Devolvido</option>
+                    <select name="sale_situation_id" id="status"
+                            class="form-control @error('sale_situation_id') is-invalid @enderror">
+                        <option disabled selected value="">Selecione</option>
+                        @foreach ($saleSituations as $saleSituation)
+                            <option value="{{ $saleSituation->id }}" @if (old('sale_situation_id', $sale->sale_situation_id) == $saleSituation->id) selected @endif>{{ $saleSituation->name }}</option>
+                        @endforeach
                     </select>
+                    @error('sale_situation_id')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
                 <button type="submit" class="btn btn-primary">Salvar</button>
             </form>

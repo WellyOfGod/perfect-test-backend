@@ -33,7 +33,7 @@
                            value="{{ old('email') ?? $customer->email ?? '' }}">
                     @error('email')
                     <div class="invalid-feedback">
-                        {{ $errors->first('email')  }}
+                        {{ $message }}
                     </div>
                     @enderror
                 </div>
@@ -43,7 +43,7 @@
                            value="{{ old('cpf') ?? $customer->cpf ?? '' }}" placeholder="999.999.999-99">
                     @error('cpf')
                     <div class="invalid-feedback">
-                        {{ $errors->first('cpf')  }}
+                        {{ $message }}
                     </div>
                     @enderror
                 </div>

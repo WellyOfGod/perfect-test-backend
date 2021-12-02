@@ -36,7 +36,10 @@ class CustomerController extends Controller
     }
 
 
-
+    /**
+     * @param Customers $customer
+     * @return View
+     */
     public function edit(Customers $customer): View
     {
         return view('crud_customers', [

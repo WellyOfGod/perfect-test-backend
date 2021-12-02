@@ -5,7 +5,7 @@ namespace App\Http\Requests\Customer;
 use App\Rules\CPF;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class CustomerStoreRequest extends FormRequest
 {
     /**
      * @return bool

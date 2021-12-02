@@ -20,7 +20,7 @@ class CreateSalesTable extends Migration
             $table->unsignedDecimal('total');
             $table->foreignId('product_id')->constrained('products')->onDelete('CASCADE');
             $table->foreignId('sale_situation_id')->constrained('sale_situations')->onDelete('CASCADE');
-            $table->foreignId('customers_id')->constrained('customers')->onDelete('CASCADE');
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('CASCADE');
             $table->datetime('sold_at')->nullable(false)->useCurrent();
             $table->timestamps();
         });

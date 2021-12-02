@@ -2,12 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Product extends BaseModel
 {
-    /**
-     * @var string[]
-     */
-    protected $guarded = ['id'];
+
 }

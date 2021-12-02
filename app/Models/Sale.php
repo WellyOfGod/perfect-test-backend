@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Sale extends BaseModel
 {
+
+    protected $table = 'sales';
+
     protected $casts = [
         'total_value'          => 'decimal:2',
         'discount_total_value' => 'decimal:2'
@@ -26,8 +29,8 @@ class Sale extends BaseModel
         return $this->belongsTo(Sale::class);
     }
 
-    public function client(): BelongsTo
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customers::class);
+        return $this->belongsTo(Customer::class);
     }
 }

@@ -3,7 +3,8 @@
 namespace App\Models;
 
 
-class Customers extends BaseModel
+class Customer extends BaseModel
 {
+    protected $table = 'customers';
 
 }

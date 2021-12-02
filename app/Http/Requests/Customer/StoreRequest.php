@@ -8,8 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
      * @return bool
      */
     public function authorize(): bool
@@ -18,8 +16,6 @@ class StoreRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array
      */
     public function rules(): array
@@ -28,8 +24,8 @@ class StoreRequest extends FormRequest
 
         return [
             'name'  => 'required|string|max:64',
-            'email'  => "nullable|string|max:128|unique:App\Models\Customers,email,{$id}",
-            'cpf'   => ['required', 'string', 'min:11', 'max:14', new CPF]
+            'email'  => "nullable|string|max:128|unique:App\Models\Customers,email{$id}",
+            'cpf'   => ['required', 'string', 'min:11', 'max:14','unique:App\Models\Customers,cpf,{$id}', new CPF]
         ];
     }
 }

@@ -37,7 +37,7 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer'          => 'nullable|integer|exists:customer,id',
+            'customer'        => 'nullable|integer|exists:customer,id',
             'sale_date_range' => 'nullable|string',
             'initial_date'    => 'nullable|date|date_format:Y-m-d',
             'final_date'      => 'nullable|date|date_format:Y-m-d'

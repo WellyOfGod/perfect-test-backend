@@ -25,7 +25,7 @@ class CustomerUpdateRequest extends FormRequest
         return [
             'name'  => 'required|string|max:64',
             'email'  => "nullable|string|max:128|unique:App\Models\Customer,email{$id}",
-            'cpf'   => ['required', 'string', 'min:11', 'max:14','unique:App\Models\Customer,cpf,{$id}', new CPF]
+            'cpf'   => ['required', 'string', 'min:11', 'max:14',"unique:App\Models\Customer,cpf{$id}", new CPF]
         ];
     }
 }

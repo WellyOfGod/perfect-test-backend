@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Sale\{StoreRequest, UpdateRequest};
+use App\Http\Requests\Sale\SaleRequest;
 use App\Models\{Customer, Product, Sale, SaleSituation};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Fluent;
@@ -29,7 +29,7 @@ class SaleController extends Controller
         return view('crud_sales', $this->viewParams(route('sale.store'), $sale));
     }
 
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(SaleRequest $request): RedirectResponse
     {
         $data = new Fluent($request->validated());
 
@@ -58,7 +58,7 @@ class SaleController extends Controller
         return view('crud_sales', $this->viewParams(route('sale.update', $sale), $sale));
     }
 
-    public function update(UpdateRequest $request, Sale $sale): RedirectResponse
+    public function update(SaleRequest $request, Sale $sale): RedirectResponse
     {
         $data = new Fluent($request->validated());
         $sale->load('product');
@@ -78,6 +78,6 @@ class SaleController extends Controller
 
         $sale->update($data->toArray());
 
-        return redirect()->route('sale.edit', $sale);
+        return redirect()->route('dashboard', $sale);
     }
 }
